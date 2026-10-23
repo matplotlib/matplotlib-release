@@ -79,7 +79,7 @@ jobs:
         run: twine check mpl-src/dist/*
 
       - name: Upload sdist result
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
           name: cibw-sdist
           path: mpl-src/dist/*.tar.gz
@@ -97,7 +97,7 @@ jobs:
           persist-credentials: false
 
       - name: Download sdist
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
         with:
           name: cibw-sdist
           path: dist/
@@ -109,7 +109,7 @@ jobs:
           tar -cvf dist/${{ needs.build_sdist.outputs.SDIST_NAME }} matplotlib*
 
       - name: Upload sdist result
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
           name: sdist-license
           path: dist/*.tar.gz
@@ -160,15 +160,14 @@ jobs:
             cibw_archs: "arm64"
 
     steps:
-
       - name: Download sdist
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
         with:
           name: sdist-license
           path: dist/
 
       - name: Build wheels for CPython 3.15
-        uses: pypa/cibuildwheel@1828c10ab37f080699c7b81cea34097c684a7074  # v4.2.0
+        uses: pypa/cibuildwheel@b9e566a2b284570af229f6c2a33673410d0389a3  # v4.3.4
         with:
           package-dir: dist/${{ needs.build_sdist.outputs.SDIST_NAME }}
         env:
@@ -177,7 +176,7 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
 
       - name: Build wheels for CPython 3.14
-        uses: pypa/cibuildwheel@1828c10ab37f080699c7b81cea34097c684a7074  # v4.2.0
+        uses: pypa/cibuildwheel@b9e566a2b284570af229f6c2a33673410d0389a3  # v4.3.4
         with:
           package-dir: dist/${{ needs.build_sdist.outputs.SDIST_NAME }}
         env:
@@ -186,7 +185,7 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
 
       - name: Build wheels for CPython 3.13
-        uses: pypa/cibuildwheel@1828c10ab37f080699c7b81cea34097c684a7074  # v4.2.0
+        uses: pypa/cibuildwheel@b9e566a2b284570af229f6c2a33673410d0389a3  # v4.3.4
         with:
           package-dir: dist/${{ needs.build_sdist.outputs.SDIST_NAME }}
         env:
@@ -194,14 +193,14 @@ jobs:
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
 
       - name: Build wheels for CPython 3.12
-        uses: pypa/cibuildwheel@1828c10ab37f080699c7b81cea34097c684a7074  # v4.2.0
+        uses: pypa/cibuildwheel@b9e566a2b284570af229f6c2a33673410d0389a3  # v4.3.4
         with:
           package-dir: dist/${{ needs.build_sdist.outputs.SDIST_NAME }}
         env:
           CIBW_BUILD: "cp312-*"
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
           name: cibw-wheels-${{ runner.os }}-${{ matrix.cibw_archs }}
           path: ./wheelhouse/*.whl
@@ -220,14 +219,14 @@ jobs:
       id-token: write  # mandatory for trusted publishing
     steps:
       - name: Download sdist and wheels
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
         with:
           pattern: cibw-*
           path: dist
           merge-multiple: true
 
       - name: Publish
-        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33  # v1.14.2
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086  # v1.14.3
         with:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
@@ -278,14 +277,14 @@ jobs:
       id-token: write  # mandatory for trusted publishing
     steps:
       - name: Download sdist and wheels
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
         with:
           pattern: cibw-*
           path: dist
           merge-multiple: true
 
       - name: Publish
-        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33  # v1.14.2
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086  # v1.14.3
         with:
           print-hash: true
           attestations: true
